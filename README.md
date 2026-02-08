@@ -1,74 +1,66 @@
-# Network-Insight-Security-Analysis
-"Un matin, je me suis réveillé avec une question simple : Est-ce que je sais vraiment ce qui transite sur mon propre réseau ?"
+# Network Insight & Security Analysis
+> Audit de sécurité et monitoring d'une infrastructure réseau hybride.
 
-0. Avant-propos & Accroche
-   "La visibilité est la première étape de la défense. On ne peut pas protéger ce que l'on ne voit pas."
+---
 
-Ce projet est né d'un constat simple : la multiplication des équipements connectés (IoT, terminaux mobiles, domotique) transforme chaque foyer en une infrastructure complexe, souvent dépourvue de supervision. Ce dépôt documente ma démarche d'analyste réseau pour reprendre le contrôle total sur les flux de données et sécuriser mon environnement contre les menaces modernes.
+## Introduction
+"Un matin, je me suis posé une question centrale : quelle est la visibilité réelle sur les flux transitant par mon réseau ?"
 
-1. Note de Cadrage
-   1.1 Contexte du Projet
-L'audit porte sur un périmètre réseau domestique hybride. La problématique centrale est l'opacité des flux : de nombreux périphériques communiquent vers l'extérieur sans contrôle préalable, créant des vecteurs d'exfiltration de données ou d'intrusion potentiels.
+La visibilité est le premier rempart de la défense. Ce projet documente ma démarche d'analyste pour transformer un environnement réseau domestique opaque en une infrastructure surveillée et segmentée, capable de résister aux vecteurs d'attaque modernes.
 
- 1.2 Objectifs Stratégiques
-Le projet vise à répondre à trois piliers de la sécurité informatique :
+---
 
-Observabilité : Identifier 100% des actifs connectés et cartographier leurs interactions.
+## Note de Cadrage
 
-Segmentation : Appliquer le principe du moindre privilège en isolant les équipements à risque.
+### 1.1 Contexte du Projet
+L'audit porte sur un périmètre réseau domestique. La problématique identifiée est l'opacité des flux : de nombreux terminaux (mobiles, IoT) communiquent avec l'extérieur sans contrôle, créant des risques potentiels d'exfiltration de données ou d'intrusion.
 
-Intégrité : Détecter toute communication anormale ou tentative de connexion non autorisée.
+### 1.2 Objectifs Stratégiques
+* **Observabilité** : Identification de 100% des actifs et cartographie des interactions.
+* **Segmentation** : Application du principe du moindre privilège par l'isolation des zones à risque.
+* **Intégrité** : Détection des communications anormales et des tentatives de connexion non autorisées.
 
+---
 
-Avant d'entrer dans le vif de l'audit, il est essentiel de comprendre quelques piliers qui soutiennent ce projet. Voici les concepts clés à maîtriser pour suivre mon cheminement :
+## Bagage de savoir minimal
+Avant de débuter l'audit technique, voici les piliers conceptuels du projet :
 
-1. La visibilité (On ne protège que ce que l'on voit)
-Le plus gros risque dans un réseau n'est pas forcément une attaque complexe, mais l'existence d'appareils "invisibles" ou oubliés. Mon premier travail est de lever le voile sur tout ce qui est branché.
+1. **La Visibilité** : On ne protège que ce que l'on voit. L'objectif est de lever le voile sur les actifs dits "invisibles".
+2. **Le Flux de données** : L'analyse des protocoles permet de valider le comportement nominal d'un équipement.
+3. **La Segmentation** : Création de barrières virtuelles pour empêcher la propagation d'une menace (mouvement latéral).
 
-2. Le flux de données (Le réseau est vivant)
-Un appareil ne se contente pas d'être "connecté" ; il discute sans arrêt. Comprendre ces discussions (les protocoles), c'est être capable de dire si une ampoule connectée se comporte normalement ou si elle est en train de transmettre tes habitudes de vie à un serveur inconnu.
+---
 
-3. La segmentation (Ne pas mettre tous ses œufs dans le même panier)
-Dans un réseau classique, si un pirate entre sur votre imprimante, il peut souvent atteindre votre ordinateur personnel. La segmentation consiste à créer des murs virtuels pour que, même si un appareil est compromis, l'attaquant reste bloqué dans une zone isolée.
+## Glossaire Technique
 
-Glossaire technique
-Sécurité & Concepts
-Audit : Une inspection approfondie d'un système pour vérifier s'il est sécurisé et s'il respecte les règles de l'art.
+### Sécurité & Concepts
+* **Audit** : Inspection rigoureuse visant à mesurer la conformité d'un système.
+* **Zero Trust** : Modèle de sécurité où aucun appareil n'est considéré comme fiable par défaut.
+* **Surface d'attaque** : Somme des points d'entrée vulnérables d'un système.
+* **Hardening** : Processus de sécurisation d'un système par la réduction de sa surface d'exposition.
+* **CVE** : Base de données répertoriant les vulnérabilités de sécurité connues.
 
-Zero Trust (Confiance Zéro) : Une stratégie de sécurité qui part du principe qu'aucun appareil (même interne) n'est fiable par défaut. On vérifie tout, tout le temps.
+### Réseau & Analyse
+* **Actifs (Assets)** : Ensemble des équipements physiques ou virtuels connectés.
+* **Fingerprinting** : Identification d'un système d'exploitation par l'analyse de ses réponses réseau.
+* **Sniffing** : Capture et analyse de paquets de données en temps réel.
+* **DNS** : Protocole de résolution de noms de domaine en adresses IP.
+* **VLAN** : Segmentation logique d'un réseau physique.
 
-Surface d'attaque : C'est l'ensemble des points (logiciels, ports, appareils) par lesquels un pirate pourrait tenter d'entrer dans ton réseau.
+### Menaces
+* **Shadow IT** : Utilisation de systèmes ou d'appareils non approuvés par l'administrateur.
+* **Mouvement Latéral** : Technique consistant à s'étendre dans un réseau après un premier point d'entrée.
+* **C2 (Command & Control)** : Infrastructure utilisée par un attaquant pour piloter un système compromis.
 
-Vecteur d'attaque : Le chemin ou la méthode spécifique utilisé par un pirate pour accéder à une cible (ex: un mail de phishing, un port ouvert).
+---
 
-CVE (Common Vulnerabilities and Exposures) : Une liste publique de failles de sécurité connues. Chaque faille a son numéro (ex: CVE-2024-XXXX).
-
-Hardening (Durcissement) : L'action de configurer un système pour le rendre plus résistant aux attaques (supprimer l'inutile, fermer les ports, etc.).
-
-Remédiation : L'action de corriger une faille ou un problème de sécurité une fois qu'il a été détecté.
-
- Réseau & Analyse
-Actifs (Assets) : Tous les équipements connectés au réseau (PC, smartphone, caméra, serveur).
-
-Flux : Le mouvement des données entre deux points du réseau.
-
-Périmètre : La limite de ton réseau (généralement ce qui est derrière ta box).
-
-Fingerprinting (Empreinte numérique) : Technique pour deviner quel système d'exploitation ou quel logiciel tourne sur un appareil en analysant la façon dont il répond sur le réseau.
-
-Capture de paquets (Sniffing) : L'action d'intercepter et d'enregistrer les petits morceaux de données (paquets) qui circulent sur le réseau pour les analyser.
-
-DNS (Domain Name System) : L'annuaire d'Internet. Il transforme un nom (google.fr) en adresse IP (142.250.x.x). Analyser le DNS permet de voir quels sites tes appareils consultent.
-
-VLAN (Virtual LAN) : Une méthode pour découper virtuellement ton réseau en plusieurs morceaux isolés (ex: un réseau pour les invités, un pour tes serveurs, un pour tes objets connectés).
-
- Menaces
-Shadow IT : Logiciels ou appareils installés sur un réseau sans l'accord ou la connaissance de l'administrateur.
-
-Mouvement Latéral : Quand un pirate réussit à entrer sur un appareil peu sécurisé (ex: une ampoule) et s'en sert pour "sauter" sur un appareil plus important (ton PC).
-
-Exfiltration : L'action de voler des données et de les envoyer vers l'extérieur du réseau.
-
+## Méthodologie et État d'avancement
+| Phase | Désignation | État |
+| :--- | :--- | :--- |
+| **P1** | Reconnaissance et Inventaire | En cours |
+| **P2** | Analyse de Flux et Trafic | À venir |
+| **P3** | Évaluation des Vulnérabilités | À venir |
+| **P4** | Remédiation et Hardening | À venir |
 C2 (Command & Control) : Un serveur externe utilisé par un pirate pour diriger à distance des appareils infectés sur ton réseau.
 
 
